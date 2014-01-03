@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>FCS Campus Tour</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script src="../lib/mylib.js" type="text/javascript"></script>
+<script src="./tour.js" type="text/javascript"></script>
+<link href="./tour.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="instructions">
+	<h3>Ways to Move:</h3>
+	<ul>
+		<li>Autoscroll</li>
+		<li>Drag viewbox</li>
+		<li>Move cursor to edge of image</li>
+	</ul>
+	<nbsp>
+	Click red boxes to open a description and images of past and present buildings.
+	<ul>
+		<li>Use arrows to cycle through images</li>
+		<li>Click 'X' to close</li>
+	</ul>
+</div>
+<div id="viewer">
+	<div id="leftarrow">
+		<img class="arrow" src="./arrow-left.jpg" />
+		<img class="arrow" src="./arrow-left.jpg" />
+	</div>
+	<div id="rightarrow">
+		<img class="arrow" src="./arrow-right.jpg" />
+		<img class="arrow" src="./arrow-right.jpg" />
+	</div> 
+	<div id="language" class="sweetspot"></div>
+	<div id="FCC" class="sweetspot"></div>
+	<div id="shimada" class="sweetspot"></div>
+	<div id="oval" class="sweetspot"></div>
+	<div id="library" class="sweetspot"></div>
+	<div id="middle" class="sweetspot"></div>
+	<div id="shallcross" class="sweetspot"></div>
+	<div id="wood" class="sweetspot"></div>
+	<div id="science" class="sweetspot"></div>
+	<div id="jumpToShimada" class="jump"></div>
+	<div id="jumpToShallcross" class="jump"></div>
+</div>
+<div id="footer">
+	<div id="caption">Friends' Central School City Ave. Campus May 2010</div>
+	<div id="playpause">Start Autoscroll</div>
+	<div id="thumb" title="Click to move the frame">
+		<img id="small_img" src="./campusnewresized.jpg" />
+		<div id="frame" title="Drag me to move the panorama!"></div>
+	</div>
+</div>
+
+<div id="images">
+	<div id="close" title="Close">X</div>
+	<div id="description"></div>
+</div>
+<div id="pics">
+	<img id="img1" src=""/>
+	<div id="imgCaption"></div> 
+	<div id="changePic">
+		<img src="./arrow-left.jpg" class="imgSelect" id="prev" />
+		<div id="imgIndex"></div>
+		<img src="./arrow-right.jpg" class="imgSelect" id="next" />
+	</div>
+</div>
+<div id="jump">
+	<div id="close2" title="Close">X</div>
+	
+</div>	
+
+  
+
+
+<script>
+var scrolling
+var lefta
+var righta
+var viewer
+var thumb
+var alignment = 0
+var sweetspots
+var clicking = 0
+var arrows
+var sweetspotLocations=[440,-3627,20,-2530,-2410,-2055,-1605,-362,120,-3090,-1605]
+var frame
+var playpause
+var frame_alignment = 0
+var imagesDiv
+var descriptionDiv
+var closeButton
+var pics
+var timer
+var autoTimer
+var autoscrollDistance =0
+var x
+var bigX
+var beingDragged = false
+var totalDistance
+var picDivs
+var img1
+var p=0
+var r
+var imgIndex
+var prev
+var nextImg
+var changePic
+var imgCaption
+var jump
+var jumpDiv
+var closeJump
+var jumpBacks= ['shimada entrance.jpg','shallcross hall.jpg']
+var descriptions = ['The language building was built in 1996 after the green building was knocked down.','The Fannie Cox Center was built on the site of the red building.  It is composed of math and science classrooms.','Shimada Athletic Center','Oval','Blackburn Library','Middle School','Shallcross Hall','Wood Building','old science building']
+var pictures =  [['language_building.jpg','language_building01.jpg','language_building02.jpg','language_building2.jpg','language_building3.jpg','green_color.jpg','green_building2.jpg','green building comes down.jpg','green building.jpg','green_Lauren_Tanzio.jpg','green_Sondra_Rosenberg.jpg'],['FCC UC.jpg','FCC UC01.jpg','FCC UC02.jpg','red building.jpg','red building2.jpg','red_Jordana_Steinman.jpg','red_Matt_Tschoegl.jpg','cottage 1998.jpg','cottage 1998 01.jpg'],['shimada entrance and side.jpg','shimada entrance.jpg','shimada tennis courts.jpg','shimada under construction.jpg','shimada under construction1.jpg','shimada under construction01.jpg','Shimada UC 2.jpg','Shimada UC 201.jpg','Shimada UC 202.jpg','old pools 1975.jpg','old pools 1980.jpg','old pools 198001.jpg','old pools 198002.jpg','old pools 198003.jpg','pool_Brian_McKelligott.jpg','pool_Lauren_Tanzio.jpg','pool_Nick_Yulman.jpg'],['playground.jpg','playground2(2).jpg','playground2.jpg','sculpture in oval.jpg','oval.jpg'],['library 1998.jpg','library2.jpg','library3.jpg','library4.jpg'],['middle school.jpg','middle school building.jpg','middle school building01.jpg','middle2.jpg','back of middle.jpg'],['shallcross 1990.jpg','shallcross hall.jpg','shallcross hall01.jpg'],['wood building.jpg','wood01.jpg','wood building01.jpg','wood walkway.jpg','wood front.jpg','wood.jpg','wood back.jpg','wood building02.jpg'],['old science building front01.jpg','old science building front.jpg','science and wood buildings.jpg','old science building.jpg']]
+var captions = [['Language Building','Language Building under construction 1996','Language Building under construction','Language Building','View of Language Building form oval','Green Building','Green Building','Green building being torn down in preperation for Language building','Green Building','Painting of green building by Lauren Tanzio','Painting of green building by Sondra Rosenberg'],['FCC under construction','FCC under construction','FCC under construction','Front of Red Building','Back of Red Building','Painting of Red Building by Jordana Steinman','Painting of Red Building by Matt Tschoegl','Cottage','Cottage'],['Entrance of Shimada Athletic Center','Entrance of Shimada Athletic Center','Shimada tennis courts','Beginning of construction on Shimada','Shimada under construction','Shimada under construction','Shimada under construction','Shimada under construction','Shimada under construction','View of pools from diving area with tennis courts to right','Outdoor Pools','Outdoor Pools','Outdoor Pools','Outdoor Pools','Painting of swimming pools by Brian McKelligott','Painting of swimming pools by Lauren Tanzio','Painting of swimming pools by Nick Yulman'],['Playground with Library behind','View of playground from across the oval','Playground','Sculpture originally located at the top of the oval','View of oval with sculpture in its former location'],['Entrance of Blackburn Library','Blackburn Library','Blackburn Library','Blackburn Library'],['Middle School main entrance','Middle School main entrance','Side of Middle School Building','Steps between Middle School and Shallcross','Back of Middle School pre-construction of new tennis courts'],['Old walkway next to Shallcross Hall','View of Shallcross from direction of Wood Building','View of Shallcross from entrance to campus'],['View of Wood Building from driveway','Front of Wood Building','Wood Building Archway','Wood Building Archway','Front of Wood Building','Wood Building Archway from behind graduation terrace','Back of Wood Building','View of Wood Building from oval'],['Front of old Science Building','Side of Science Building','Front of Science Building with Wood Building to left','Back of Science Building pre-construction of Language Building']]
+
+window.onload = function(){
+//get elements
+	viewer = document.getElementById('viewer')
+	lefta = document.getElementById('leftarrow')
+	righta = document.getElementById('rightarrow') 
+	sweetspots = getTagsByClass('div', 'sweetspot')
+	arrows = getTagsByClass('img', 'arrow')
+	playpause = document.getElementById('playpause')
+	frame = document.getElementById('frame')
+	imagesDiv = document.getElementById('images')
+	closeButton = document.getElementById('close')
+	descriptionDiv = document.getElementById('description')
+	pics = document.getElementById('pics')
+	thumb = document.getElementById('thumb')
+	picDivs = getTagsByClass('img', 'pic')
+	img1 = document.getElementById('img1')
+	imgIndex = document.getElementById('imgIndex')
+	prev = document.getElementById('prev')
+	nextImg = document.getElementById('next')
+	changeImg = document.getElementById('changePic')
+	imgCaption = document.getElementById('imgCaption')
+	jump = getTagsByClass('div', 'jump')
+	jumpDiv=document.getElementById('jump')
+	closeJump = document.getElementById('close2')
+	for(var i=0; jump[i]; i++){
+		sweetspots.push(jump[i])		
+		
+	}
+	
+
+	//eventHandlers  
+	alignSweetspots()
+	resetSweetspots()
+	for(var i=0; sweetspots[i]; i++){
+		sweetspots[i].onmouseover = showSpot
+		sweetspots[i].onmouseout = hideSpot
+		sweetspots[i].onclick = showImages
+	}
+	for(var i=0; jump[i]; i++){
+		jump[i].onmouseover = showJump
+		jump[i].onmouseout = hideJump
+		jump[i].onclick = openJump		
+		
+	}
+	closeJump.onclick = hideJumpDiv
+	lefta.onmouseover =  showArrow
+	lefta.onmouseout = hideArrow
+	righta.onmouseover =  showArrow
+	righta.onmouseout = hideArrow
+	playpause.onclick = playpauseClicked
+	closeButton.onclick = closeImages
+	thumb.onmousemove = moveFrame
+	frame.onmousedown = startDrag
+	thumb.onmouseup = stopDrag
+	prev.onclick = prevPic
+	nextImg.onclick = nextPic
+}   
+</script>
+</body>
+</html>
