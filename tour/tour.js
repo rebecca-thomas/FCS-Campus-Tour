@@ -20,7 +20,7 @@ function checkAlignment(){
 }
 function moveLeft(){
 	alignment += 50 
-	viewer.style.background = 'url(\'./campusnewresized.jpg\') repeat-x ' + alignment +'px'
+	viewer.style.background = 'url(\'./tour/campusnewresized.jpg\') repeat-x ' + alignment +'px'
 	frame_alignment -= 4
 	for(var i=0; sweetspotLocations[i]; i++){
 		sweetspotLocations[i]= (sweetspotLocations[i]+=50)
@@ -30,7 +30,7 @@ function moveLeft(){
 }
 function moveRight(){
     alignment -= 50 
-    viewer.style.background = 'url(\'./campusnewresized.jpg\') repeat-x ' + alignment +'px'
+    viewer.style.background = 'url(\'./tour/campusnewresized.jpg\') repeat-x ' + alignment +'px'
     frame_alignment += 4
     for(var i=0; sweetspotLocations[i]; i++){
         sweetspotLocations[i]= (sweetspotLocations[i]-=50)       
@@ -73,7 +73,7 @@ function autoscroll(){
 	}
 	alignment -= 10
 	autoscrollDistance -= 10 
-	viewer.style.background = 'url(\'./campusnewresized.jpg\') repeat-x ' + alignment +'px'
+	viewer.style.background = 'url(\'./tour/campusnewresized.jpg\') repeat-x ' + alignment +'px'
 	frame_alignment += (3.95/5)
 	alignFrame()
 }
@@ -159,10 +159,10 @@ function showJump(){
 	this.style.border = 'red solid 2px'
 	if(this.id == 'jumpToShimada'){
 		this.title = 'Jump To Shimada'
-		this.style.background = 'url(\'jumpShimada.jpg\') top right'
+		this.style.background = 'url(\'tour/jumpShimada.jpg\') top right'
 	}else{
 		this.title = 'Jump To Shallcross'
-		this.style.background = 'url(\'jumpShallcross.jpg\')'
+		this.style.background = 'url(\'tour/jumpShallcross.jpg\')'
 	}
 	this.style.width = '200px'
 	this.style.height = '200px'
@@ -200,7 +200,7 @@ function showImages(){
 	loadImg()    
 }
 function loadImg(){
-	img1.src = pictures[r][p]
+	img1.src = "tour/" + pictures[r][p]
 	img1.onload = function(){
 		img1.style.left = (600-img1.width)/2 + 'px'
 		
