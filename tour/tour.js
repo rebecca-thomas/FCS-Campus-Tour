@@ -89,7 +89,6 @@ function showArrow(e){
 		arrows[3].style.visibility = 'visible'
 		scrolling = setInterval('moveRight()', 100)
 	}
-	arrows[i].style.visibility = 'visible'
 }
 function hideArrow(e){
 	e.stopPropagation()
